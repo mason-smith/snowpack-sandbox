@@ -8,8 +8,15 @@
   },
   "dependencies": {
     "@snowpack/plugin-babel": "^2.1.6",
+    "axios": "^0.21.1",
+    "cuid": "^2.1.8",
+    "firebase": "^8.2.9",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "react-query": "^3.9.9",
+    "react-query-devtools": "^2.6.3",
+    "react-router-dom": "^5.2.0",
+    "recoil": "^0.1.2"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.12.17",
@@ -24,6 +31,8 @@
     "@types/mocha": "^8.2.1",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.1",
+    "@types/react-router-dom": "^5.1.7",
+    "@types/recoil": "^0.0.1",
     "@types/snowpack-env": "^2.3.3",
     "@web/test-runner": "^0.12.15",
     "babel-eslint": "^10.1.0",

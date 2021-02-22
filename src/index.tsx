@@ -1,14 +1,24 @@
-import React from 'react';
+import { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
-import App from 'src/App';
-import 'src/index.css';
+import { RecoilRoot } from 'recoil';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root'),
-);
+// Local Dependencies
+import { DebugObserver } from 'src/config/DebugObserver';
+import { App } from 'src/App';
+import 'src/styles/index.css';
+
+const render = () =>
+  ReactDOM.render(
+    <StrictMode>
+      <RecoilRoot>
+        <DebugObserver />
+        <App />
+      </RecoilRoot>
+    </StrictMode>,
+    document.getElementById('root')
+  );
+
+render();
 
 // Hot Module Replacement (HMR) - Remove this snippet to remove HMR.
 // Learn more: https://snowpack.dev/concepts/hot-module-replacement
