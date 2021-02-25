@@ -1,16 +1,18 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 // Local Dependencies
 import GoogleAuthButton from 'src/components/GoogleAuthButton';
 import { firebaseAuth, signInWithGoogle } from 'src/config/firebase.config';
-import { authState } from './authState';
+import { UseAuthStateReturn } from 'src/config/firebaseTypes';
 import { AuthError } from './types';
 
 const LoginPage = () => {
   const history = useHistory();
-  const auth = useRecoilValue(authState);
+  const [user, firebaseIsLoading]: UseAuthStateReturn = useAuthState(
+    firebaseAuth
+  );
 
   // Local State
   const [email, setEmail] = useState('');
@@ -18,13 +20,11 @@ const LoginPage = () => {
   const [error, setError] = useState<AuthError | null>(null);
   const [isLoading, setLoading] = useState(false);
 
-  console.log('error :>> ', error);
-
   useEffect(() => {
-    if (auth?.user) {
+    if (user) {
       history.push('/dashboard');
     }
-  }, [auth?.user]);
+  }, [user]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -34,11 +34,19 @@ const LoginPage = () => {
     try {
       await firebaseAuth.signInWithEmailAndPassword(email, password);
       setLoading(false);
+      history.push('/dashboard');
     } catch (err) {
       setLoading(false);
       setError(err);
     }
   };
+
+  /**
+   * @TODO Add loading screen for auth checks
+   */
+  if (firebaseIsLoading || user) {
+    return null;
+  }
 
   return (
     <div>
@@ -51,6 +59,7 @@ const LoginPage = () => {
           onChange={(e) => setEmail(e.target.value)}
           id="email-login-input"
           required
+          autoComplete="email"
         />
         <input
           type="password"
@@ -59,6 +68,7 @@ const LoginPage = () => {
           onChange={(e) => setPassword(e.target.value)}
           id="password-login-input"
           required
+          autoComplete="password"
         />
         <button type="submit" disabled={isLoading}>
           Log In
@@ -70,7 +80,7 @@ const LoginPage = () => {
         Sign in with Google
       </GoogleAuthButton>
       <p>
-        Don't have an account? <Link to="/register">Register here.</Link>
+        Don't have an account? <Link to="/register">Sign up here.</Link>
       </p>
     </div>
   );

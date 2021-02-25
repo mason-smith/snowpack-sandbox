@@ -1,19 +1,20 @@
 import { Route, Redirect } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 // Local Dependencies
-import { authState } from 'src/features/Auth/authState';
+import { firebaseAuth } from 'src/config/firebase.config';
+import { UseAuthStateReturn } from 'src/config/firebaseTypes';
 import { PrivateRouteProps } from './types';
 
 // A wrapper for <Route> that redirects to the login
 // screen if you're not yet authenticated.
 export const PrivateRoute = ({ children, ...rest }: PrivateRouteProps) => {
-  const auth = useRecoilValue(authState);
+  const [user]: UseAuthStateReturn = useAuthState(firebaseAuth);
   return (
     <Route
       {...rest}
       render={({ location }) =>
-        auth?.user ? (
+        user ? (
           children
         ) : (
           <Redirect

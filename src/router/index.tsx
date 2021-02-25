@@ -1,19 +1,20 @@
 import { Suspense } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import cuid from 'cuid';
 
 // Local Dependencies
 import Navigation from 'src/components/Navigation';
-import { authState } from 'src/features/Auth/authState';
+import { firebaseAuth } from 'src/config/firebase.config';
+import { UseAuthStateReturn } from 'src/config/firebaseTypes';
 import { PrivateRoute } from './PrivateRoute';
 import { routes } from './routes';
 
 export const AppRouter = () => {
-  const auth = useRecoilValue(authState);
+  const [user]: UseAuthStateReturn = useAuthState(firebaseAuth);
   return (
     <Router>
-      {auth?.user ? <Navigation /> : null}
+      {user ? <Navigation /> : null}
 
       <Switch>
         <Suspense fallback={null}>
