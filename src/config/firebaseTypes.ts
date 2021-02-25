@@ -1,9 +1,39 @@
 import firebase from 'firebase/app';
 
+/**
+ * AUTH TYPES
+ */
+/** */
 export type FirebaseAuth = firebase.auth.Auth;
 
 export type FirebaseUser = firebase.User;
 
 export type FirebaseAuthError = firebase.auth.Error;
 
-export type UseAuthStateReturn = [FirebaseUser, boolean, FirebaseAuthError];
+/**
+ * FIRESTORE TYPEs
+ */
+/** */
+export type FirestoreQuerySnapshot = firebase.firestore.QuerySnapshot;
+
+export type FirestoreQuery = firebase.firestore.Query;
+
+export type FirestoreQueryOptions = {
+  options: firebase.firestore.SnapshotListenOptions;
+};
+
+/**
+ * REACT-FIREBASE-HOOKS TYPES
+ */
+/** */
+export type UseAuthStateReturn = [
+  FirebaseUser | undefined,
+  boolean,
+  FirebaseAuthError
+];
+
+export type UseCollectionReturn = [
+  FirestoreQuerySnapshot | undefined,
+  boolean,
+  Error
+];

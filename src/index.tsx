@@ -1,19 +1,26 @@
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import { RecoilRoot } from 'recoil';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 // Local Dependencies
 import { DebugObserver } from 'src/config/DebugObserver';
 import { App } from 'src/App';
 import 'src/styles/index.css';
 
+const queryClient = new QueryClient();
+
 const render = () =>
   ReactDOM.render(
     <StrictMode>
-      <RecoilRoot>
-        <DebugObserver />
-        <App />
-      </RecoilRoot>
+      <QueryClientProvider client={queryClient}>
+        <RecoilRoot>
+          <DebugObserver />
+          <App />
+        </RecoilRoot>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </StrictMode>,
     document.getElementById('root')
   );
